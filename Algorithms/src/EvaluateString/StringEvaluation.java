@@ -25,18 +25,28 @@ public class StringEvaluation {
         if (input.length() == 0) {
             return "0";
         }
-        for (int i = 0; i <end; i++) {
+        int countDigits = 0;
+        for (int i = 0; i < end; i++) {
             if (input.charAt(i) >= '0' && input.charAt(i) <= '9') {
                 start = i;
+                countDigits++;
                 break;
             }
         }
-        for (int i = 0; i <end; i++) {
+
+        if (countDigits == 0) {
+            return "0(No Integers in the input string)";
+        }
+
+        for (int i = 0; i < end; i++) {
             if (input.charAt(end - i - 1) >= '0' && input.charAt(end - i - 1) <= '9' && end > start) {
                 end = end - i;
                 break;
             }
         }
+
+        System.out.println("Range: (" + (end - start + ")"));
+
         int sum = 0;
         StringBuilder output = new StringBuilder();
         output.append("(");
