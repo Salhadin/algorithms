@@ -15,10 +15,10 @@ public class JSONSerializer {
 
         String json = "{k1:'1234',k2:{k3:'123',k4:'abc'},k3:'sddd'}";
         System.out.println("Serialized JSON: ");
-        serializeJSON(json);
+        serializeJSON(json, "Onject Name");
     }
 
-    private static void serializeJSON(String json) {
+    private static void serializeJSON(String json, String parent) {
         //if (json.startsWith("{") && json.endsWith("}")) {
         System.out.println("Input: " + json);
         if (json.contains(":")) {
@@ -26,16 +26,16 @@ public class JSONSerializer {
             String key = json.substring(0, colonIndex);
             String value = json.substring(colonIndex + 1);
 
-            System.out.println("Key: " + key);
+            System.out.println("Key: " + parent+"."+key);
             System.out.println("Value: " + value);
 
             if (value.trim().startsWith("'")) {
                 int commaIndex = value.indexOf(",");
                 //System.out.println("Value: " + value.substring(0, commaIndex));
                 String subJson = value.substring(commaIndex + 1);
-                serializeJSON(subJson);
+                serializeJSON(subJson, parent);
             } else if (value.trim().startsWith("{")) {
-                serializeJSON(value.trim());
+                serializeJSON(value.trim(), key);
             }
         }
 
