@@ -12,33 +12,34 @@ package JSONSerializer;
 public class JSONSerializer {
 
     public static void main(String[] args) {
+
         String json = "{k1:'1234',k2:{k3:'123',k4:'abc'},k3:'sddd'}";
         System.out.println("Serialized JSON: ");
-        serializeJSON("", json);
+        serializeJSON(json);
     }
 
-    private static void serializeJSON(String parent, String json) {
-        if (json.startsWith("{") && json.endsWith("}")) {
-            String[] entries = json.substring(1, json.length() - 1).split(",");
-            for (String entry : entries) {
-                String[] keyValuePair = entry.split(":");
-                String key = keyValuePair[0];
-//                String value = keyValuePair[1];
-//                if (!isObject(value)) {
-//                    System.out.print(key + ".");
-//                    serializeJSON(key, value);
-//                    System.out.print(key + ".");
-//                    serializeJSON(key, value);
-//                } else {
-//                    System.out.print(key + "->");
-//                }
-                System.out.print(key + "->");
+    private static void serializeJSON(String json) {
+        //if (json.startsWith("{") && json.endsWith("}")) {
+        System.out.println("Input: " + json);
+        if (json.contains(":")) {
+            int colonIndex = json.indexOf(":");
+            String key = json.substring(0, colonIndex);
+            String value = json.substring(colonIndex + 1);
+
+            System.out.println("Key: " + key);
+            System.out.println("Value: " + value);
+
+            if (value.trim().startsWith("'")) {
+                int commaIndex = value.indexOf(",");
+                //System.out.println("Value: " + value.substring(0, commaIndex));
+                String subJson = value.substring(commaIndex + 1);
+                serializeJSON(subJson);
+            } else if (value.trim().startsWith("{")) {
+                serializeJSON(value.trim());
             }
         }
-    }
 
-    private static boolean isObject(String value) {
-        return value.startsWith("\'") && value.endsWith("\'");
+        //}
     }
 
 }
